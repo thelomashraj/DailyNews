@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
 import InfiniteScroll from "react-infinite-scroll-component";
+import API_KEY from './ApiKeys';
 
 const News = (props) => {
     const [articles, setArticles] = useState([])
@@ -9,11 +10,11 @@ const News = (props) => {
     const [totalResults, setTotalResults] = useState(1)
 
     const updateNews = async () => {
-        const url = `https://api.currentsapi.services/v1/search?apiKey=kbidK6AzjBl_58hS6_e6SRhGou8hnTCyblPXm-rCqMdIoBvi&country=${props.country}&category=${props.category}`
+        const url = `https://api.currentsapi.services/v1/search?apiKey=${API_KEY}&country=${props.country}&category=${props.category}`
         let data = await fetch(url);
         let parsedData = await data.json()
         setArticles(parsedData.news)
-        document.title = `DailyNews - ${props.category? props.category.toUpperCase(): "HOME"} `
+        document.title = `DailyNews - ${props.category ? props.category.toUpperCase() : "HOME"} `
     }
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const News = (props) => {
 
     const fetchMoreData = async () => {
         setPage(page + 1)
-        let url = `https://api.currentsapi.services/v1/search?apiKey=kbidK6AzjBl_58hS6_e6SRhGou8hnTCyblPXm-rCqMdIoBvi&country=${props.country}&category=${props.category}`  //&page=${page}&language=${props.country}&category=${props.category}&pageSize=${props.pageSize}
+        let url = `https://api.currentsapi.services/v1/search?apiKey=${API_KEY}&country=${props.country}&category=${props.category}`  //&page=${page}&language=${props.country}&category=${props.category}&pageSize=${props.pageSize}
         let data = await fetch(url);
         let parsedData = await data.json()
         setArticles(articles.concat(parsedData.news))
